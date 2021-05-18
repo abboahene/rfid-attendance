@@ -1,0 +1,71 @@
+POST http://localhost:3002/club HTTP/1.1
+content-type: application/json
+
+{
+    "name": "cs5"
+}
+
+###
+
+GET http://localhost:3002/clubs HTTP/1.1
+
+###
+
+GET http://localhost:3002/clubs/6093312d5247f0553c27d1f4 HTTP/1.1
+
+###
+
+POST http://localhost:3002/clubs/delete/609331085247f0553c27d1f2 HTTP/1.1
+
+###
+
+POST http://localhost:3002/clubs/update/6093312d5247f0553c27d1f4 HTTP/1.1
+content-type: application/json
+
+{
+    "name": "yzlitch"
+}
+
+###
+
+POST http://localhost:3002/member HTTP/1.1
+content-type: application/json
+
+{
+    "rfid": "aaaaaaaaaaaaaaaaaaaaaa01",
+    "name": "Prince",
+    "club_name": "cs4"
+}
+
+###
+
+POST http://localhost:3002/event HTTP/1.1
+content-type: application/json
+
+{
+    "title": "Math 131",
+    "club_name": "cs4"
+}
+
+###
+
+GET http://localhost:3002/attenders/cs4/Math 131/all HTTP/1.1
+
+###
+
+GET http://localhost:3002/attenders/lastest/event HTTP/1.1
+
+###
+
+POST http://localhost:3002/attender HTTP/1.1
+content-type: application/json
+
+{
+    "member_id": "60970566e406ae2ee896625c",
+    "member_name": "Astro",
+    "member_club": "cs4",
+    "rfid": "999999999999999999999901",
+    "club_name": "cs4",
+    "event_title": "Math 131",
+    "event_desc": "Some Class"
+}

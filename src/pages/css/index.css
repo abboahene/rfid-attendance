@@ -1,0 +1,95 @@
+.wrapper.text-center{
+    border: black solid 3px;
+}
+.count.row.mt-3{
+    border: black solid 3px;
+}
+.col-6.black{
+    background-color: #000;
+}
+.counter{
+    font-size:8rem;
+}
+.btn.btn-primary{
+    width: 100%;
+}
+
+#sidebar{
+    display: fixed;
+    height: 100vh;
+}
+
+#toast{
+    display: none;
+    position: absolute;
+    top: 102px;
+    right: 20px;
+    z-index: 9999;
+}
+.valid {
+    position: fixed;
+    top: calc(30px);
+    left: calc(50% - 30px);
+    width: 70px;
+    height: 60px;
+    z-index: 9999;
+    overflow: hidden;
+    background:url('../../images/valid.png');
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: center;
+
+}
+.invalid {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: url('../../images/invalid.png');
+    background-repeat: no-repeat;
+    background-size: 100px;
+    background-position: center;
+}
+.preloader {
+    position: fixed;
+    top: 0; 
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    overflow: hidden;
+    background: none;
+}
+.preloader:before {
+    content: "";
+    position: fixed;
+    top: calc(30px);
+    left: calc(50% - 30px);
+    border: 4px dotted #000;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: animate-preloader .9s linear infinite;
+    animation: animate-preloader .9s linear infinite;
+}
+  
+@-webkit-keyframes animate-preloader {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}
+
+@keyframes animate-preloader {
+0% {
+    transform: rotate(0deg);
+}
+100% {
+    transform: rotate(360deg);
+}
+}

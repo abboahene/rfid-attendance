@@ -2,7 +2,8 @@ POST http://localhost:3002/club HTTP/1.1
 content-type: application/json
 
 {
-    "name": "cs5"
+    "name": "cs4",
+    "evetns": ['Math', 'Physics', 'Electronic']
 }
 
 ###

@@ -76,7 +76,8 @@ wss.on('connection', (ws) => {
         usbPort.on('data', function (data) {
             indata += data.toString('hex')
             if ( indata.length === 34 ) {
-
+                usbPort.close()
+                setTimeout(() => usbPort.open(), 3000)
                 if ( !cardIds.includes(indata.substring(4,28)) && allClubMembers.includes(indata.substring(4,28)) ) {
 
                     cardIds.push( indata.substring(4,28) )

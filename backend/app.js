@@ -34,7 +34,7 @@ const ws = require('ws')
 const wss = new ws.Server({ server: server })
 
 const SerialPort = require('serialport')
-const usbPort = new SerialPort('COM11')
+const usbPort = new SerialPort('COM3')
 // usbPort.open(err =>{
 //     console.log('Error opening port:', err)
 // })
@@ -70,12 +70,15 @@ wss.on('connection', (ws) => {
     // get RFID data
     let indata = ''
     let cardIds = []
+    let allClubMembers = ['bbbbbbbbbbbbbbbbbbbbbb01','999999999999999999999901','aaaaaaaaaaaaaaaaaaaaaa01']
     
     // usbPort.on('open', function (){
         usbPort.on('data', function (data) {
             indata += data.toString('hex')
             if ( indata.length === 34 ) {
-                if ( !cardIds.includes(indata.substring(4,28)) ) {
+
+                if ( !cardIds.includes(indata.substring(4,28)) && allClubMembers.includes(indata.substring(4,28)) ) {
+
                     cardIds.push( indata.substring(4,28) )
                     //send msg to client
                     ws.send(cardIds[cardIds.length-1])
@@ -106,13 +109,16 @@ wss.on('connection', (ws) => {
 
                             console.log('justSaved: ', rfid+" has been saved as attended")
                         }else{
-                            ws.send('0')
+                            // ws.send('0')
                         }
                     })
                     console.log('identified: ',cardIds[cardIds.length-1])
-                }else{
+                }else if( cardIds.includes(indata.substring(4,28)) ){
                     
-                    ws.send('1');
+                    ws.send(`../images/${indata.substring(4,28)}.jpg*1`) // already present
+
+                }else if( !allClubMembers.includes(indata.substring(4,28)) ){
+                    ws.send('0')
                 }
                 indata = ''
             }

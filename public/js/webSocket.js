@@ -21,8 +21,8 @@ ws.onopen = () => {
 ws.onmessage = (message) => {
     console.log('Server message recieved: ', message.data)
     
-    if(message.data === '1') {
-        $('#toastContent').html('<img style={{borderRadius: "50%"}} width="40" src="'+$('#image').attr('src')+'" alt="" />  This Student is already present')
+    if(message.data.split('*')[1] === '1') {
+        $('#toastContent').html('<img style={{borderRadius: "50%"}} width="40" src="'+ message.data.split('*')[0] +'" alt="" />  This Student is already present')
         $('#toast').fadeIn('slow', function(){
             $(this).show()
         }).delay(2000)
@@ -30,7 +30,7 @@ ws.onmessage = (message) => {
             $(this).hide()
         })
     }else if(message.data === '0'){
-        $('#toastContent').text(':( This Student does not exists')
+        $('#toastContent').text(':( The Student does not exists')
         $('#toast').fadeIn('slow', function(){
             $(this).show()
         }).delay(2000)

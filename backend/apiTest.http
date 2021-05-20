@@ -32,8 +32,8 @@ POST http://localhost:3002/member HTTP/1.1
 content-type: application/json
 
 {
-    "rfid": "aaaaaaaaaaaaaaaaaaaaaa01",
-    "name": "Prince",
+    "rfid": "bbbbbbbbbbbbbbbbbbbbbb01",
+    "name": "Benefo",
     "club_name": "cs4"
 }
 

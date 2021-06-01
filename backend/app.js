@@ -45,9 +45,12 @@ usbPort.on('error', function(err) {
 usbPort.on('close', function(err) {
     console.log('usbPort closed')
 })
+usbPort.on('open', function(err) {
+    console.log('usbPort opened')
+})
 
 // web socket
-wss.on('connection', (ws) => {
+wss.on('connection', async(ws) => {
     console.log('A new client is connected')
     // console.log(ws)s
 
@@ -69,56 +72,63 @@ wss.on('connection', (ws) => {
 
     // get RFID data
     let indata = ''
-    let cardIds = []
-    let allClubMembers = ['bbbbbbbbbbbbbbbbbbbbbb01','999999999999999999999901','aaaaaaaaaaaaaaaaaaaaaa01']
+    let rfid = ''
+    let presentIds = []
+    let currentEvent = await Event.findOne({}).sort({ createdAt: -1}).exec()
+    let allClubMembers = await Member .find({ club_name: currentEvent.club_name }).exec()
+    let allClubMembersRfids = []
+    allClubMembers.forEach(element => {
+        allClubMembersRfids.push(element.rfid)
+    });
+    console.log('rfids',allClubMembersRfids)
     
     // usbPort.on('open', function (){
         usbPort.on('data', function (data) {
             indata += data.toString('hex')
             if ( indata.length === 34 ) {
+                rfid = indata.substring(4,28)
                 usbPort.close()
                 setTimeout(() => usbPort.open(), 3000)
-                if ( !cardIds.includes(indata.substring(4,28)) && allClubMembers.includes(indata.substring(4,28)) ) {
+                if ( !presentIds.includes(rfid) && allClubMembersRfids.includes(rfid) ) {
 
-                    cardIds.push( indata.substring(4,28) )
-                    //send msg to client
-                    ws.send(cardIds[cardIds.length-1])
-                    Member.find({rfid: indata.substring(4,28)}).exec((err,doc)=>{
-                        if(doc.length > 0 ){
-                            
-                            let member = doc[0]
-                            let member_id = member._id
-                            let member_name = member.name
-                            let member_club= member.club_name
-                            let rfid = member.rfid
-                            
-                            let justSaved = new Attender({
-                                rfid: rfid,
-                                member_id: member_id,
-                                member_name: member_name,
-                                member_club: member_club
-                            })
-                            justSaved.save((err, attender) =>{
-                                // console.log('attender',attender)
-                                Event.findOne({}).sort({createdAt: -1}).exec((err, event) => {
-                                    // console.log('event', event)
-                                    Attender.findOneAndUpdate({_id: attender._id}, {event_title: event.title, club_name: event.club_name},{new: true},(err,updated)=>{
-                                        console.log('attender updated')
-                                    })
-                                })
-                            })
-
-                            console.log('justSaved: ', rfid+" has been saved as attended")
-                        }else{
-                            // ws.send('0')
-                        }
-                    })
-                    console.log('identified: ',cardIds[cardIds.length-1])
-                }else if( cardIds.includes(indata.substring(4,28)) ){
+                    presentIds.push( rfid )
+    
+                    // get the member details
+                    let member = allClubMembers.find( el => el.rfid === rfid)
+                    console.log('member', member)
                     
-                    ws.send(`../images/${indata.substring(4,28)}.jpg*1`) // already present
-
-                }else if( !allClubMembers.includes(indata.substring(4,28)) ){
+                    //create an attender
+                    let attender = new Attender({
+                        member_rfid: member.rfid,
+                        member_name: member.name,
+                        member_club: member.club_name,
+                        club_name: currentEvent.club_name,
+                        event_name: currentEvent.name
+                    })
+                    attender.save((err, attender) =>{
+                        if(err) console.log('could not save',err)
+                        console.log('justSaved: ', rfid+" has been saved as attended")
+                        //send member to client
+                        let member_details =
+                            {
+                                member_rfid: attender.member_rfid,
+                                member_name: attender.member_name,
+                                member_club: currentClub.name,
+                                time_arrived: attender.createdAt
+                            }
+                        ///string member_details ends
+        
+                        ws.send(JSON.stringify(member_details))
+                    })
+                    
+    
+                    
+    
+                // error handling 
+                }else if( presentIds.includes(rfid) ){
+                    ws.send(`../images/${rfid}.jpg*1`) // already present
+    
+                }else if( !allClubMembersRfids.includes(rfid) ){
                     ws.send('0')
                 }
                 indata = ''

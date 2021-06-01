@@ -44,7 +44,7 @@ POST http://localhost:3002/event HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Math 131",
+    "name": "Math 1334",
     "club_name": "cs4"
 }
 

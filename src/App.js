@@ -25,7 +25,6 @@ function App() {
         <Switch>
           <Route path="/" exact> <Index/> </Route>
           <Route path="/dashboard"> <Dashboard/> </Route>
-          <Route path="/dashboard/ma"> <Dashboard/> </Route>
           {/* <PrivateRoute path="/home"> <Layout/> </PrivateRoute> */}
         </Switch>
       </Suspense>

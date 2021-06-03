@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {useEffect, useState, useRef} from 'react'
+import DashboardGraph from './dashboardGraph'
 
 const DashboardTable = (props) => {
 
@@ -10,22 +11,25 @@ const DashboardTable = (props) => {
     let [eventName, setEventName] = useState()
     let [clubName, setClubName] = useState()
     let [eventDate, setEventDate] = useState()
-
+    
     let selectedClubName = useRef()
     let selectedEventTitle = useRef()
     
     useEffect(() => {
         axios.get('http://localhost:3002/attenders/lastest/event').then((res)=>{
             console.log(res.data)
+            setEventName(  () => res.data.events[0].name )
+            setClubName(  res.data.events[0].club_name )
+            setEventDate(  () => new Date(res.data.events[0].createdAt).toDateString() )
+
             if(res.data.attenders.length > 0){
-                setEventName(  () => res.data.attenders[0].event_title )
-                setClubName(  () => res.data.attenders[0].club_name )
-                setEventDate(  () => new Date(res.data.attenders[0].createdAt).toDateString() )
+                
                 setDataRows(res.data.attenders.map((attender) => {
+                    //create html options
                     return <tr key={attender._id}>
                         <th scope="row">{attender.member_name}</th>
                         <td>{ new Date(attender.createdAt).toLocaleString().split(',')[1]}</td>
-                        <td>@{attender.rfid}</td>
+                        <td>@{attender.member_rfid}</td>
                     </tr>
                 }))
             }else{
@@ -33,75 +37,96 @@ const DashboardTable = (props) => {
                     return <tr key="nodata"><td span="3">NO DATA</td></tr>
                 }))
             }
-            setEventSelectElement(res.data.events.map((event) => {
 
-                return <option key={event._id} value={event.title}>{event.title}</option>
+            // set html options
+            setEventSelectElement(res.data.events.map((event) => {
+                
+                return <option key={event._id} value={event.name}>{event.name}</option>
             }))
             setClubSelectElement(res.data.clubs.map((club) => {
 
-                return <option key={club._id} value={club.name}>{club.name}</option>
+                return <option key={club} value={club}>{club}</option>
             }))
         }).catch((err) => {
             console.log(err)
         })
         
-    }, [])
+    }, [clubName])
 
     ///function
     function getAttendersByClubAndEvent(){
         axios.get(`http://localhost:3002/attenders/${selectedClubName.current.value}/${selectedEventTitle.current.value}/all`).then((res)=>{
             console.log(res.data)
+            setEventName(  () => selectedEventTitle.current.value )
+            setEventDate(  () => '--Date--' )
             if(res.data.length > 0){
-                setEventName(  () => res.data.event_title )
-                setEventDate(  () => new Date(res.data.createdAt).toDateString() )
+                setEventDate(  () => new Date(res.data[0].createdAt).toDateString() )
+
                 setDataRows(res.data.map((attender) => {
+                    //create html rows
                     return <tr key={attender._id}>
                         <th scope="row">{attender.member_name}</th>
                         <td>{ new Date(attender.createdAt).toLocaleString().split(',')[1]}</td>
-                        <td>@{attender.rfid}</td>
+                        <td>@{attender.member_rfid}</td>
                     </tr>
                 }))
             }else{
                 setDataRows([1].map((attender) => {
+                    
                     return <tr key="nodata"><td span="3">NO DATA</td></tr>
                 }))
             }
+
         }).catch((err) => {
             console.log(err)
         })
 
     }
+
+    function getEventsForSelectedClub(){
+        axios.get(`http://localhost:3002/events/${selectedClubName.current.value}`).then((res)=>{
+            console.log(res.data)
+            setEventSelectElement(res.data.map((event) => {
+
+                return <option key={event._id} value={event.name}>{event.name}</option>
+            }))
+        })
+    }
     
     return ( 
         <>
-        <form className="pull-right">
-            <fieldset>
-                <div className="form-group">
-                    <label className="form-label mt-4 mx-2">choose class</label>
-                    <select className="form-select p-2" defaultValue={clubName} ref={selectedClubName} id="selected_club_name">
-                        {clubSelectElement}
-                    </select>
+        <div className="col-9">
+            
+            <DashboardGraph  clubName={selectedClubName.current !== undefined ? selectedClubName.current.value : clubName}/>
+            <form className="pull-right">
+                <fieldset>
+                    <div className="form-group">
+                        <label className="form-label mt-4 mx-2">choose class</label>
+                        <select className="form-select p-2" onChange={getEventsForSelectedClub} defaultValue={clubName} ref={selectedClubName} id="selected_club_name">
+                            {clubSelectElement}
+                        </select>
 
-                    <label className="form-label mt-4 mx-2">choose course</label>
-                    <select className="form-select p-2" defaultValue={eventName} ref={selectedEventTitle} id="selected_club_name">
-                        {eventSelectElement}
-                    </select>
-                    <input className="ml-3" type="button" value="Find" onClick={getAttendersByClubAndEvent} />
-                </div>
-            </fieldset>
-        </form>
-        <table title="tilel" className="table table-hover table-lights table-striped">
-            <thead>
-                <tr> 
-                    <th scope="col">Name</th>
-                    <th scope="col">Time <span className="badge badge-light">({eventDate})</span></th>
-                    <th scope="col">RfId |→ <span>{eventName}</span> </th>
-                </tr>
-            </thead>
-            <tbody>
-                {dataRows}
-            </tbody>
-        </table>
+                        <label className="form-label mt-4 mx-2">choose course</label>
+                        <select className="form-select p-2" defaultValue={eventName} ref={selectedEventTitle} id="selected_club_name">
+                            {eventSelectElement}
+                        </select>
+                        <input className="ml-3" type="button" value="See Attenders" onClick={getAttendersByClubAndEvent} />
+                    </div>
+                </fieldset>
+            </form>
+            <table title="tilel" className="table table-hover table-lights table-striped">
+                <thead>
+                    <tr> 
+                        <th scope="col">Name</th>
+                        <th scope="col">Time <span className="badge badge-light">({eventDate})</span></th>
+                        <th scope="col">RfId |→ <span>{eventName}</span> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {dataRows}
+                </tbody>
+            </table>
+        </div>
         </>
      );
 }

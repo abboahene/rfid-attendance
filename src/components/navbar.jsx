@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 
 const Navbar = () => {
     let location = useLocation()
@@ -11,8 +11,8 @@ const Navbar = () => {
                 { checkMatch ?<span id="club_name" className="badge text-primary bg-light"></span> : ''}
             </span>
                 { checkMatch ?
-                    <a id="admin" href="/dashboard" className="btn btn-outline-primary">Login</a> : 
-                    <a id="admin" href="/" className="btn btn-outline-primary">Logout</a>
+                    <Link id="admin" to="/dashboard" className="btn btn-outline-primary">Admin</Link> : 
+                    <Link id="admin" to="/" className="btn btn-outline-primary">Home</Link>
                 }
         </nav>
         </>

@@ -2,8 +2,7 @@ POST http://localhost:3002/club HTTP/1.1
 content-type: application/json
 
 {
-    "name": "cs4",
-    "evetns": ['Math', 'Physics', 'Electronic']
+    "name": "cs5"
 }
 
 ###
@@ -40,14 +39,21 @@ content-type: application/json
 
 ###
 
+GET http://localhost:3002/events/cs5 HTTP/1.1
+
+###
 POST http://localhost:3002/event HTTP/1.1
 content-type: application/json
 
 {
-    "name": "Math 1334",
-    "club_name": "cs4"
+    "name": "AI 1034",
+    "club_name": "cs5"
 }
 
+###
+
+GET http://localhost:3002/attenders/graphdata/cs4 HTTP/1.1
+content-type: blob
 ###
 
 GET http://localhost:3002/attenders/cs4/Math 131/all HTTP/1.1
@@ -55,7 +61,9 @@ GET http://localhost:3002/attenders/cs4/Math 131/all HTTP/1.1
 ###
 
 GET http://localhost:3002/attenders/lastest/event HTTP/1.1
+###
 
+GET http://localhost:3002/attenders/downloadcsv HTTP/1.1
 ###
 
 POST http://localhost:3002/attender HTTP/1.1

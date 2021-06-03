@@ -58,15 +58,19 @@ wss.on('connection', async(ws) => {
     ws.once('message', (data) => {
         console.log('data from client: ', data )
 
-        let firstNotNull = data.split('*')[0] !== 'null'
-        let secondNotNull = data.split('*')[1] !== 'null'
+        let EventNotNull = data.split('*')[0] !== 'null'
+        let ClubNotNull = data.split('*')[1] !== 'null'
         
-        if( firstNotNull && secondNotNull ){
+        if( EventNotNull && ClubNotNull ){
             let newEvent = new Event({
-                club_name: data.split('*')[0],
-                title: data.split('*')[1]
+                name: data.split('*')[0],
+                club_name: data.split('*')[1]
             })
-            newEvent.save()
+            // newEvent.save()
+            // let newClub = new Club({
+            //     name: data.split('*')[1],
+            // })
+            // newClub.save()
         }
     })
 
@@ -113,7 +117,7 @@ wss.on('connection', async(ws) => {
                             {
                                 member_rfid: attender.member_rfid,
                                 member_name: attender.member_name,
-                                member_club: currentClub.name,
+                                member_club: currentEvent.club_name,
                                 time_arrived: attender.createdAt
                             }
                         ///string member_details ends

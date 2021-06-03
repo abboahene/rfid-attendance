@@ -16,10 +16,10 @@ router.get('/event/latest', (req, res) => {
     })
 })
 
-router.get('/events/:event_name', (req, res) => {
-    Event.findById({ _id: req.params.event_id}, (err, event) => {
+router.get('/events/:club_name', (req, res) => {
+    Event.find({ club_name: req.params.club_name}, (err, events) => {
         if(err) return res.status(404).send('data not found')
-        res.json(event)
+        res.json(events)
     })
 })
 

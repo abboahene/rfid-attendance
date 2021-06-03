@@ -1,0 +1,73 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import axios from 'axios'
+
+import { Chart, registerables } from 'chart.js';
+Chart.register(...registerables);
+
+const DashboardGraph = (props) => {
+
+    const graphGetEventsForSelectedClub = useCallback(async () => {
+        console.log('prop.club', props.clubName)
+       const res = await axios.get(`http://localhost:3002/attenders/graphdata/${props.clubName}`)
+       return res.data
+    }, [props.clubName])
+
+    let [avgEvnt,setAvgEvnt] = useState({avg: 0, evnt: 0})
+
+    useEffect(() => {
+        let thisChart
+        graphGetEventsForSelectedClub().then( graphData => {
+            console.log(graphData)
+            setAvgEvnt( {avg: graphData.averageAttendance, evnt: (graphData.event_names || []).length} )
+            let ctx = document.getElementById('myChart')
+            thisChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: graphData.event_names,
+                    datasets: [{
+                        label: 'Number of Attenders',
+                        data: graphData.eventAttendersCount,
+                        backgroundColor: 'black',
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            })
+        })
+
+        return () => {
+        thisChart.destroy()
+    };
+        
+    }, [graphGetEventsForSelectedClub])
+
+    
+        
+    return ( 
+        <>
+            <div className="row">
+                <div className="col-8">
+                    <canvas id="myChart"></canvas>
+                </div>
+                <div className="col-4">
+                    <div className="row h-100">
+                        <div className="col-12 my-3 h-45 w-100 border border-danger d-flex flex-column justify-content-center text-center">
+                        <i className="fa fa-4x fa-tachometer text-danger">Avg.</i> <h1 id="average">{(avgEvnt.avg||0).toFixed(2)}</h1>
+                        </div>
+                        <div className="col-12 my-1 mb-4 h-45 w-100 border border-success d-flex flex-column justify-content-center text-center">
+                            <i className="fa fa-4x fa-calendar text-success">Evnt.</i> <h1>{avgEvnt.evnt}</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+     );
+}
+ 
+export default DashboardGraph;

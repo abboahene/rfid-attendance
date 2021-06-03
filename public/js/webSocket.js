@@ -1,7 +1,7 @@
+
 // Create WebSocket connection.
-let pathname = window.location.pathname
 let event_title,club_name
-if( pathname === '/' ){
+if( window.location.pathname === '/' ){
     event_title = prompt('Please Enter Course Name', 'Course'+Math.random())  
     club_name = prompt('Please Enter Your Class Name', 'Class'+Math.random())  
     console.log(club_name)
@@ -15,7 +15,7 @@ ws.onopen = () => {
     $('#admin').attr('href', `dashboard/${event_title}/${club_name}`)
     $('#event_title').text(event_title)
     $('#club_name').text(club_name)
-    if( pathname==='/' ) ws.send(event_title+'*'+club_name)
+    if( window.location.pathname ==='/' ) ws.send(event_title+'*'+club_name)
 }
 
 ws.onmessage = (message) => {
@@ -38,6 +38,8 @@ ws.onmessage = (message) => {
             $(this).hide()
         })
     }else{
+        let member_details = JSON.parse(message.data)
+        console.log('memberrfid',member_details.member_rfid)
         //update count
         $('#increase').text( $('#increase').text()*1+1 )
         //jQuery animation and delay
@@ -50,7 +52,7 @@ ws.onmessage = (message) => {
             $(this).addClass('valid')
         }).delay(500)
         
-        $('#image').delay(300).attr('src', `../images/${message.data}.jpg`)
+        $('#image').delay(300).attr('src', `../images/${member_details.member_rfid}.jpg`)
     }
 }
 

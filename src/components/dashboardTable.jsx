@@ -95,7 +95,7 @@ const DashboardTable = (props) => {
     
     return ( 
         <>
-        <div className="col-9">
+        <div className="col-9 col-md-10 p-5">
             
             <DashboardGraph  clubName={selectedClubName.current !== undefined ? selectedClubName.current.value : clubName}/>
             <form className="pull-right">
@@ -110,11 +110,11 @@ const DashboardTable = (props) => {
                         <select className="form-select p-2" defaultValue={eventName} ref={selectedEventTitle} id="selected_club_name">
                             {eventSelectElement}
                         </select>
-                        <input className="ml-3" type="button" value="See Attenders" onClick={getAttendersByClubAndEvent} />
+                        <input className="ml-3 btn btn-success shadow-sm rounded" type="button" value="See Attenders" onClick={getAttendersByClubAndEvent} />
                     </div>
                 </fieldset>
             </form>
-            <table title="tilel" className="table table-hover table-lights table-striped">
+            <table className="table table-hover table-lights table-striped shadow-sm rounded">
                 <thead>
                     <tr> 
                         <th scope="col">Name</th>

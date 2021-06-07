@@ -53,14 +53,14 @@ const DashboardGraph = (props) => {
         <>
             <div className="row">
                 <div className="col-8">
-                    <canvas id="myChart"></canvas>
+                    <canvas id="myChart" className="shadow-sm rounded p-4"></canvas>
                 </div>
                 <div className="col-4">
                     <div className="row h-100">
-                        <div className="col-12 my-3 h-45 w-100 border border-danger d-flex flex-column justify-content-center text-center">
+                        <div className="col-12 my-3 h-45 w-100 shadow-sm rounded d-flex flex-column justify-content-center text-center">
                         <i className="fa fa-4x fa-tachometer text-danger">Avg.</i> <h1 id="average">{(avgEvnt.avg||0).toFixed(2)}</h1>
                         </div>
-                        <div className="col-12 my-1 mb-4 h-45 w-100 border border-success d-flex flex-column justify-content-center text-center">
+                        <div className="col-12 my-1 mb-4 h-45 w-100 shadow-sm rounded d-flex flex-column justify-content-center text-center">
                             <i className="fa fa-4x fa-calendar text-success">Evnt.</i> <h1>{avgEvnt.evnt}</h1>
                         </div>
                     </div>

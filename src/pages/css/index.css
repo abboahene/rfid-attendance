@@ -5,9 +5,9 @@
     width: 100vw;
     overflow: hidden;
 }
-div.col-6.p-0.h-100{
-    background-color: rgb(245, 245, 245);
-    box-shadow: 2px 2px 5px rgb(182, 182, 182) ;
+div.col-7.p-0.h-100{
+    background: rgb(2,0,36);
+    background: linear-gradient(135deg, rgb(4, 68, 18) 0%, rgba(19,121,9,1) 37%, rgba(0,255,136,1) 100%);
 }
 /* .wrapper.text-center{
     border: black solid 3px;
@@ -15,6 +15,12 @@ div.col-6.p-0.h-100{
 .count.row{
     border: black solid 3px;
 } */
+
+select{
+    border: 2px solid rgb(32, 161, 32);
+    border-radius: 5px;
+}
+
 .col-6.black{
     background-color: #000;
 }

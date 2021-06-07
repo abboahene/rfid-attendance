@@ -5,14 +5,14 @@ const Navbar = () => {
     let checkMatch = location.pathname === '/'
     return ( 
         <>
-        <nav className="navbar navbar-light bg-light mb-2">
-            <span className="navbar-brand mb-0 h1"><strong>RFID - Attendance System</strong><br/> 
-                { checkMatch ?<span id="event_title" className="badge text-white bg-primary"></span> : ''} <br/>
-                { checkMatch ?<span id="club_name" className="badge text-primary bg-light"></span> : ''}
+        <nav className="navbar navbar-light bg-light shadow-sm py-0">
+            <span className="navbar-brand p-3"><img style={{borderRadius: "50%"}} width="45" src="../images/knustlogo.png" alt="" /><span className="h3 text-success">RFID - Attendance System</span><br/> 
+                {/* { checkMatch ?<span id="event_title" className="badge text-white bg-primary"></span> : ''} <br/>
+                { checkMatch ?<span id="club_name" className="badge text-primary bg-light"></span> : ''} */}
             </span>
                 { checkMatch ?
-                    <Link id="admin" to="/dashboard" className="btn btn-outline-primary">Admin</Link> : 
-                    <Link id="admin" to="/" className="btn btn-outline-primary">Home</Link>
+                    <Link id="admin" to="/dashboard" className="btn btn-outline-success rounded shadow-sm">Admin</Link> : 
+                    <Link id="admin" to="/" className="btn btn-outline-success rounded shadow-sm">Home</Link>
                 }
         </nav>
         </>

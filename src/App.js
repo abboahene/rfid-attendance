@@ -23,9 +23,8 @@ function App() {
     <Router>
       <Suspense fallback = {loading}>
         <Switch>
-          <Route path="/" exact> <Index/> </Route>
+          <Route exact path="/"> <Index/> </Route>  
           <Route path="/dashboard"> <Dashboard/> </Route>
-          {/* <PrivateRoute path="/home"> <Layout/> </PrivateRoute> */}
         </Switch>
       </Suspense>
     </Router>

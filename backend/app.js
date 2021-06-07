@@ -66,7 +66,7 @@ wss.on('connection', async(ws) => {
                 name: data.split('*')[0],
                 club_name: data.split('*')[1]
             })
-            // newEvent.save()
+            newEvent.save()
             // let newClub = new Club({
             //     name: data.split('*')[1],
             // })
@@ -85,6 +85,7 @@ wss.on('connection', async(ws) => {
         allClubMembersRfids.push(element.rfid)
     });
     console.log('rfids',allClubMembersRfids)
+    console.log('current event', currentEvent)
     
     // usbPort.on('open', function (){
         usbPort.on('data', function (data) {

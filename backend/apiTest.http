@@ -2,7 +2,7 @@ POST http://localhost:3002/club HTTP/1.1
 content-type: application/json
 
 {
-    "name": "cs5"
+    "name": "cs6"
 }
 
 ###
@@ -96,7 +96,7 @@ GET http://localhost:3002/clubs/6093312d5247f0553c27d1f4 HTTP/1.1
 
 ###
 
-POST http://localhost:3002/clubs/delete/609331085247f0553c27d1f2 HTTP/1.1
+POST http://localhost:3002/clubs/delete/cs7 HTTP/1.1
 
 ###
 
@@ -120,16 +120,19 @@ content-type: application/json
 
 ###
 
+GET http://localhost:3002/clubs_and_events HTTP/1.1
+
+###
 GET http://localhost:3002/events/cs5 HTTP/1.1
 
 ###
-POST http://localhost:3002/event HTTP/1.1
-content-type: application/json
+POST http://localhost:3002/events/update/yh45 HTTP/1.1
+# content-type: application/json
 
-{
-    "name": "AI 1034",
-    "club_name": "cs5"
-}
+# {
+#     "name": "AI 1034",
+#     "club_name": "cs5"
+# }
 
 ###
 

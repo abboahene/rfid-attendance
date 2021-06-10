@@ -40,7 +40,7 @@ router.get('/attenders/graphdata/:club_name', (req, res) => {
 })
 
 router.get('/attenders/:club_name/:event_title/all', (req, res) => {
-    Attender.find({ member_club: req.params.club_name, event_name: req.params.event_title })
+    Attender.find({ club_name: req.params.club_name, event_name: req.params.event_title })
     .exec( (err,attenders) => {
         if (err) return res.status(400).send('data not found')
         

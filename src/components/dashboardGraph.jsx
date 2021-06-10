@@ -21,15 +21,24 @@ const DashboardGraph = (props) => {
             setAvgEvnt( {avg: graphData.averageAttendance, evnt: (graphData.event_names || []).length} )
             let ctx = document.getElementById('myChart')
             thisChart = new Chart(ctx, {
-                type: 'bar',
+                
                 data: {
                     labels: graphData.event_names,
-                    datasets: [{
+                    datasets: [
+                        {
+                            type: 'line',
+                            label: 'Number of Attenders',
+                            data: graphData.eventAttendersCount,
+                            backgroundColor: 'rgb(252, 200, 30)',
+                            borderWidth: 5,
+                            borderCoolr: 'rgb(252, 200, 30)'
+                        },{
+                        type: 'bar',
                         label: 'Number of Attenders',
                         data: graphData.eventAttendersCount,
-                        backgroundColor: 'black',
+                        backgroundColor: 'rgba(78, 196, 98)',
                         borderWidth: 0
-                    }]
+                        }]
                 },
                 options: {
                     scales: {
@@ -42,7 +51,7 @@ const DashboardGraph = (props) => {
         })
 
         return () => {
-        thisChart.destroy()
+            if(thisChart !== undefined) thisChart.destroy() 
     };
         
     }, [graphGetEventsForSelectedClub])
@@ -58,10 +67,10 @@ const DashboardGraph = (props) => {
                 <div className="col-4">
                     <div className="row h-100">
                         <div className="col-12 my-3 h-45 w-100 shadow-sm rounded d-flex flex-column justify-content-center text-center">
-                        <i className="fa fa-4x fa-tachometer text-danger">Avg.</i> <h1 id="average">{(avgEvnt.avg||0).toFixed(2)}</h1>
+                        <i className="fa fa-2x fa-tachometer text-danger">Avg.</i> <h1 id="average">{(avgEvnt.avg||0).toFixed(2)}</h1>
                         </div>
                         <div className="col-12 my-1 mb-4 h-45 w-100 shadow-sm rounded d-flex flex-column justify-content-center text-center">
-                            <i className="fa fa-4x fa-calendar text-success">Evnt.</i> <h1>{avgEvnt.evnt}</h1>
+                            <i className="fa fa-2x fa-calendar text-success">Evnt.</i> <h1>{avgEvnt.evnt}</h1>
                         </div>
                     </div>
                 </div>

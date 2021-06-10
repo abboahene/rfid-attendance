@@ -44,47 +44,28 @@ select{
     z-index: 9999;
 }
 .valid {
-    position: fixed;
-    top: calc(30px);
-    left: calc(50% - 30px);
-    width: 70px;
-    height: 60px;
-    z-index: 9999;
-    overflow: hidden;
+    height: 30px;
     background:url('../../images/valid.png');
     background-repeat: no-repeat;
     background-size: 100px;
     background-position: center;
+    padding: 30px;
 
 }
 .invalid {
-    position: fixed;
-    top: 0; 
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999;
-    overflow: hidden;
     background: url('../../images/invalid.png');
     background-repeat: no-repeat;
     background-size: 100px;
     background-position: center;
 }
-.preloader {
-    position: fixed;
-    top: 0; 
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 9999;
-    overflow: hidden;
-    background: none;
+
+.preloader{
+    padding: 20px;
 }
+
 .preloader:before {
     content: "";
     position: fixed;
-    top: calc(30px);
-    left: calc(50% - 30px);
     border: 4px dotted #000;
     border-radius: 50%;
     width: 30px;

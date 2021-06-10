@@ -1,11 +1,30 @@
 const express = require('express')
 const router = express.Router()
 const Event = require('../models/event')
+const Club = require('../models/club')
+const Attender = require('../models/attender')
 
 router.get('/events', (req, res) => {
     Event.find({}, (err, events) => {
         if(err) return res.status(404).send('data not found')
         res.json(events)
+    })
+})
+
+router.get('/clubs_and_events', (req, res) => {
+    
+    Event.find({}).sort().exec((err, events) =>{
+        if(err) return res.status(404).send('data not found')
+        Club.find({}).exec((err, clubs) => {
+            if(err) return res.status(404).send('data not found')
+
+            let clubsAndEvents = []
+            clubs.forEach(club => {
+                clubsAndEvents.push({ [club.name]: events.filter(event => event.club_name === club.name) })       
+            })
+
+            res.json(clubsAndEvents)
+        })
     })
 })
 
@@ -34,16 +53,22 @@ router.post('/event', (req, res) => {
     })
 })
 
-router.post('/events/update/:event_id', (req, res) => {
-    Event.findByIdAndUpdate({ _id: req.params.event_id}, req.body, (err, event) => {
+router.post('/events/update/:event_name', (req, res) => {
+    Event.findOneAndUpdate({ name: req.params.event_name}, req.body, (err, event) => {
         if(err) return res.status(400).send('data not found')
-        res.json(event)
+        Attender.updateMany({event_name: req.params.event_name}, {event_name: req.body.name},{upsert: false}, (err, done) =>{
+            if(err) return res.status(400).send('data not found')
+            res.json(done)
+        })
     })
 })
 
-router.post('/events/delete/:event_id', (req, res) => {
-    Event.findByIdAndDelete({ _id: req.params.event_id}, (err, event) => {
+router.post('/events/delete/:event_name', (req, res) => {
+    Event.findOneAndDelete({ name: req.params.event_name}, (err, event) => {
         if(err) return res.status(400).send('data not found')
+        Attender.deleteMany({event_name: req.params.event_name}, (err) =>{
+            if(err) return res.status(400).send('data not found')
+        })
         res.json(event)
     })
 })

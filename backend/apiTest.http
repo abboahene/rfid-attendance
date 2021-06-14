@@ -122,6 +122,11 @@ content-type: application/json
 
 GET http://localhost:3002/clubs_and_events HTTP/1.1
 
+### 
+GET http://localhost:3002/events/Math 1334/isEnded HTTP/1.1
+###
+POST http://localhost:3002/events/exams/end HTTP/1.1
+
 ###
 GET http://localhost:3002/events/cs5 HTTP/1.1
 

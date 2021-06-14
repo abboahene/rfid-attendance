@@ -1,10 +1,11 @@
 import React, {useState, useEffect, useRef} from 'react'
 import axios from 'axios'
+import { Link, useLocation } from 'react-router-dom'
 import CudModal from '../components/cudModal'
 const Event = () => {
     const [clubsAndEvents, setClubsAndEvents] = useState([])
     const [reload, setReload] = useState(false)
-
+    console.log(useLocation())
     function reloadEvent() {
         setReload(!reload)
     }
@@ -111,9 +112,11 @@ const Event = () => {
                                                        return <li key={event.name} value={event.name} className={`d-flex justify-content-between border-top`}>
                                                             {event.name}
                                                             <div className="">
-                                                            <button onClick={ () => buttonUpdate(event) } className={`btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-edit"></i>
+                                                            <Link to={`/${clubName.replace(' ', '_')}/${event.name.replace(' ', '_')}`} className={event.is_ended ? `btn btn-sm btn-secondary rounded shadow-sm border my-1 mr-2 p-2 disabled` : `btn btn-sm btn-secondary rounded shadow-sm border my-1 mr-2 p-2`} ><i className="fa fa-clock-o"> Take Attendance</i>
+                                                            </Link>
+                                                            <button onClick={ () => buttonUpdate(event) } className={event.is_ended ? `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2 disabled` : `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-edit"></i>
                                                             </button>
-                                                            <button onClick={ () => buttonDelete(event) } className={`btn btn-sm btn-danger rounded shadow my-1 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-minus"></i>
+                                                            <button onClick={ () => buttonDelete(event) } className={event.is_ended ? `btn btn-sm btn-danger rounded shadow my-1 p-2 disabled` : `btn btn-sm btn-danger rounded shadow my-1 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-minus"></i>
                                                             </button>
                                                             </div>
                                                         </li>

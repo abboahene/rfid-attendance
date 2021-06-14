@@ -1,4 +1,3 @@
-
 const express = require('express')
 const app = express()
 app.use(express.static('public'))
@@ -25,7 +24,6 @@ mongoose.connect('mongodb://localhost/rfid-attendance', {
 }).catch((err)=> console.log(err))
 const Member = require('./models/member')
 const Attender = require('./models/attender')
-const Event = require('./models/event')
 
 
 
@@ -35,6 +33,8 @@ const wss = new ws.Server({ server: server })
 
 const SerialPort = require('serialport')
 const usbPort = new SerialPort('COM3')
+
+const fs = require('fs')
 // usbPort.open(err =>{
 //     console.log('Error opening port:', err)
 // })
@@ -50,102 +50,96 @@ usbPort.on('open', function(err) {
 })
 
 // web socket
-wss.on('connection', async(ws) => {
+wss.on('connection', async (ws) => {
     console.log('A new client is connected')
     // console.log(ws)s
 
-    // recieve msg from client
+    // recieve msg from client 
     ws.once('message', (data) => {
         console.log('data from client: ', data )
 
-        let EventNotNull = data.split('*')[0] !== 'null'
-        let ClubNotNull = data.split('*')[1] !== 'null'
-        
-        if( EventNotNull && ClubNotNull ){
-            let newEvent = new Event({
-                name: data.split('*')[0],
-                club_name: data.split('*')[1]
-            })
-            newEvent.save()
-            // let newClub = new Club({
-            //     name: data.split('*')[1],
-            // })
-            // newClub.save()
-        }
+        let eventName = data.split('*')[0]
+        let clubName = data.split('*')[1]
+
+        //write event name and club name to file for retrival to usbPort utility
+        fs.writeFile('EventNameClubName.csv', `${eventName},${clubName}`, (err) =>{
+            if(err) console.log(err)
+            console.log('EventNameClubName file written')
+        })
+
     })
 
+    //get data from EventNameClubName file
+    let EventNameClubName = fs.readFileSync('EventNameClubName.csv', 'utf8')
+
+    let eventName = EventNameClubName.split(',')[0]
+    let clubName = EventNameClubName.split(',')[1]
+
+    console.log('current event', eventName)
+    console.log('current club', clubName)
     // get RFID data
     let indata = ''
     let rfid = ''
     let presentIds = []
-    let currentEvent = await Event.findOne({}).sort({ createdAt: -1}).exec()
-    let allClubMembers = await Member .find({ club_name: currentEvent.club_name }).exec()
+    let allClubMembers = await Member.find({ club_name: clubName }).exec()
     let allClubMembersRfids = []
     allClubMembers.forEach(element => {
         allClubMembersRfids.push(element.rfid)
     });
     console.log('rfids',allClubMembersRfids)
-    console.log('current event', currentEvent)
     
-    // usbPort.on('open', function (){
-        usbPort.on('data', function (data) {
-            indata += data.toString('hex')
-            if ( indata.length === 34 ) {
-                rfid = indata.substring(4,28)
-                usbPort.close()
-                setTimeout(() => usbPort.open(), 3000)
-                if ( !presentIds.includes(rfid) && allClubMembersRfids.includes(rfid) ) {
+    usbPort.on('data', function (data) {
+        indata += data.toString('hex')
+        if ( indata.length === 34 ) {
+            rfid = indata.substring(4,28)
+            usbPort.close()
+            setTimeout(() => usbPort.open(), 3000)
+            if ( !presentIds.includes(rfid) && allClubMembersRfids.includes(rfid) ) {
 
-                    presentIds.push( rfid )
+                presentIds.push( rfid )
+
+                // get the member details
+                let member = allClubMembers.find( el => el.rfid === rfid)
+                console.log('member', member)
+                
+                //create an attender
+                let attender = new Attender({
+                    member_rfid: member.rfid,
+                    member_name: member.name,
+                    member_club: member.club_name,
+                    club_name: clubName,
+                    event_name: eventName
+                })
+                attender.save((err, attender) =>{
+                    if(err) console.log('could not save',err)
+                    console.log('justSaved: ', rfid+" has been saved as attended")
+                    //send member to client
+                    let member_details =
+                        {
+                            member_rfid: attender.member_rfid,
+                            member_name: attender.member_name,
+                            member_club: clubName,
+                            time_arrived: attender.createdAt
+                        }
+                    ///string member_details ends
     
-                    // get the member details
-                    let member = allClubMembers.find( el => el.rfid === rfid)
-                    console.log('member', member)
-                    
-                    //create an attender
-                    let attender = new Attender({
-                        member_rfid: member.rfid,
-                        member_name: member.name,
-                        member_club: member.club_name,
-                        club_name: currentEvent.club_name,
-                        event_name: currentEvent.name
-                    })
-                    attender.save((err, attender) =>{
-                        if(err) console.log('could not save',err)
-                        console.log('justSaved: ', rfid+" has been saved as attended")
-                        //send member to client
-                        let member_details =
-                            {
-                                member_rfid: attender.member_rfid,
-                                member_name: attender.member_name,
-                                member_club: currentEvent.club_name,
-                                time_arrived: attender.createdAt
-                            }
-                        ///string member_details ends
-        
-                        ws.send(JSON.stringify(member_details))
-                    })
-                    
-    
-                    
-    
-                // error handling 
-                }else if( presentIds.includes(rfid) ){
-                    ws.send(`../images/${rfid}.jpg*1`) // already present
-    
-                }else if( !allClubMembersRfids.includes(rfid) ){
-                    ws.send('0')
-                }
-                indata = ''
+                    ws.send(JSON.stringify(member_details))
+                })
+                
+
+                
+
+            // error handling 
+            }else if( presentIds.includes(rfid) ){
+                ws.send(`../images/${rfid}.jpg*1`) // already present
+
+            }else if( !allClubMembersRfids.includes(rfid) ){
+                ws.send('0')
             }
+            indata = ''
+        }
 
-        })
-    // })
-
-    // if (ws.CLOSED) {
-    //     console.log('websocket closed')
-    //     usbPort.close()
-    // }
+    })
 
 })
 

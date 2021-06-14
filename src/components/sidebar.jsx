@@ -2,7 +2,6 @@ import React, {Suspense} from 'react'
 import {Link,
     Route,
     Switch,
-    BrowserRouter as Router,
     useRouteMatch
 } from 'react-router-dom'
 import DashboardTable from '../components/dashboardTable'
@@ -19,7 +18,6 @@ const Sidebar = () => {
     let {path,url} = useRouteMatch()
     return ( 
     <>
-        <Router>
         <div className="col-3 col-md-2 bg-success shadow p-0">
             <div id="sidebar">
             <div className="list-group bg-secondary">
@@ -51,7 +49,6 @@ const Sidebar = () => {
             <Route path={`${path}/events`}> <Event/> </Route>
         </Switch>
         </Suspense>
-        </Router>
     </>
      )
 }

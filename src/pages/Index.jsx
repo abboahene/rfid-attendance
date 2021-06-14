@@ -1,16 +1,20 @@
 import React, {useEffect} from 'react'
+import {useParams} from 'react-router-dom'
 import Navbar from '../components/navbar'
 import Toast from '../components/toast'
 import './css/index.css'
 const Index = () => {
+    let {club_name, event_name} = useParams()
+    club_name = club_name.replace('_', ' ')
+    event_name = event_name.replace('_', ' ')
+
     useEffect(() => {
-        
         const ws = new WebSocket('ws://localhost:3001')
+
         ws.onopen = () => {
             console.log('WebSocket is open now.')
-            // let event_title = document.getElementById('event_title').textContent
-            // let club_name = document.getElementById('club_name').textContent
-            // if( window.location.pathname ==='/' ) ws.send(event_title+'*'+club_name)
+
+            ws.send(event_name+'*'+club_name)
         }
     
         ws.onmessage = (message) => {
@@ -56,7 +60,7 @@ const Index = () => {
         return () => {
             ws.close()
         };
-    }, []);
+    }, [event_name, club_name]);
 
     return ( 
         <div className="indexBody">
@@ -65,8 +69,8 @@ const Index = () => {
             <div className="container-fluid d-flex justify-content-center" style={{height: "85%"}}>
             <div className="container-fluid m-3 d-flex flex-column justify-content-center">
                 <div className="pb-3 mx-5">
-                <h4 className="m-0 mb-1">Club: <span id="club_name">KNUST</span></h4>
-                <h4 className="m-0">Event: <span id="event_title">KNUST</span></h4>
+                <h4 className="m-0 mb-1">Club: <span id="club_name">{club_name}</span></h4>
+                <h4 className="m-0">Event: <span id="event_title">{event_name}</span></h4>
                 </div>
                 <div className="row h-75 mx-5">
                     <div className="col-7 p-0 h-100 rounded shadow-sm d-flex flex-column justify-content-center">

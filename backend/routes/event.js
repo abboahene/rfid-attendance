@@ -63,6 +63,20 @@ router.post('/events/update/:event_name', (req, res) => {
     })
 })
 
+router.post('/events/:event_name/end', (req, res) => {
+    Event.findOneAndUpdate({name: req.params.event_name}, {is_ended: true}, {upsert: true, new: true}, (err, event) => {
+        if(err) return res.status(400).send('data not found')
+       res.json(event.is_ended)
+    })
+})
+
+router.get('/events/:event_name/isEnded', (req, res) => {
+    Event.findOne({name: req.params.event_name}, (err, event) => {
+        if(err) return res.status(400).send('data not found')
+       res.json(event.is_ended)
+    })
+})
+
 router.post('/events/delete/:event_name', (req, res) => {
     Event.findOneAndDelete({ name: req.params.event_name}, (err, event) => {
         if(err) return res.status(400).send('data not found')

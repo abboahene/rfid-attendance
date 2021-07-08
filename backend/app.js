@@ -52,22 +52,7 @@ usbPort.on('open', function(err) {
 // web socket
 wss.on('connection', async (ws) => {
     console.log('A new client is connected')
-    // console.log(ws)s
-
-    // recieve msg from client 
-    ws.once('message', (data) => {
-        console.log('data from client: ', data )
-
-        let eventName = data.split('*')[0]
-        let clubName = data.split('*')[1]
-
-        //write event name and club name to file for retrival to usbPort utility
-        fs.writeFile('EventNameClubName.csv', `${eventName},${clubName}`, (err) =>{
-            if(err) console.log(err)
-            console.log('EventNameClubName file written')
-        })
-
-    })
+    // console.log(ws)
 
     //get data from EventNameClubName file
     let EventNameClubName = fs.readFileSync('EventNameClubName.csv', 'utf8')

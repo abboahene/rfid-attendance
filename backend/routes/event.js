@@ -3,6 +3,7 @@ const router = express.Router()
 const Event = require('../models/event')
 const Club = require('../models/club')
 const Attender = require('../models/attender')
+const fs = require('fs')
 
 router.get('/events', (req, res) => {
     Event.find({}, (err, events) => {
@@ -33,6 +34,14 @@ router.get('/event/latest', (req, res) => {
         if(err) return res.status(404).send('data not found')
         res.json(event)
     })
+})
+
+router.get('/create/:event_name/:club_name/file', (req, res) => {
+    let csv = `${req.params.event_name},${req.params.club_name}`
+    fs.writeFile('EventNameClubName.csv', csv, (err) =>{
+        if(err) console.log(err)
+        console.log('EventNameClubName file written')
+    })  
 })
 
 router.get('/events/:club_name', (req, res) => {

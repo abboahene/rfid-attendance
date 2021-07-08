@@ -10,12 +10,6 @@ const Index = () => {
 
     useEffect(() => {
         const ws = new WebSocket('ws://localhost:3001')
-
-        ws.onopen = () => {
-            console.log('WebSocket is open now.')
-
-            ws.send(event_name+'*'+club_name)
-        }
     
         ws.onmessage = (message) => {
             console.log('Server message recieved: ', message.data)

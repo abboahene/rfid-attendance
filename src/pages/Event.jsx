@@ -70,6 +70,10 @@ const Event = () => {
         setModal(modal_delete)
     }
     ///======handle button clicks
+
+    function createEventNameClubNameFileOnServer(eventName, clubName) {
+        axios.get(`http://localhost:3002/create/${eventName}/${clubName}/file`)
+    }
     
     return ( 
         <div className="col-9 col-md-10 p-5">
@@ -112,7 +116,7 @@ const Event = () => {
                                                        return <li key={event.name} value={event.name} className={`d-flex justify-content-between border-top`}>
                                                             {event.name}
                                                             <div className="">
-                                                            <Link to={`/${clubName.replace(' ', '_')}/${event.name.replace(' ', '_')}`} className={event.is_ended ? `btn btn-sm btn-secondary rounded shadow-sm border my-1 mr-2 p-2 disabled` : `btn btn-sm btn-secondary rounded shadow-sm border my-1 mr-2 p-2`} ><i className="fa fa-clock-o"> Take Attendance</i>
+                                                            <Link onClick={() => createEventNameClubNameFileOnServer(event.name,clubName)} to={`/${clubName.replace(' ', '_')}/${event.name.replace(' ', '_')}`} className={event.is_ended ? `btn btn-sm btn-info rounded shadow-sm border my-1 mr-2 p-2 disabled` : `btn btn-sm btn-info rounded shadow-sm border my-1 mr-2 p-2`} ><i className="fa fa-clock-o"> Take Attendance</i>
                                                             </Link>
                                                             <button onClick={ () => buttonUpdate(event) } className={event.is_ended ? `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2 disabled` : `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-edit"></i>
                                                             </button>

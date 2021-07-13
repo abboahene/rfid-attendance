@@ -46,8 +46,8 @@ POST http://localhost:3002/event HTTP/1.1
 content-type: application/json
 
 {
-    "name": "AI 1034",
-    "club_name": "cs5"
+    "name": "Pure 1034",
+    "club_name": "cs4"
 }
 
 ###

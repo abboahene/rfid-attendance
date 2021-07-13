@@ -18,10 +18,10 @@ const DashboardTable = () => {
     
     useEffect(() => {
         axios.get('http://localhost:3002/attenders/lastest/event').then((res)=>{
-            console.log(res.data)
+            console.log('data here', res.data)
             setEventName( () => res.data.events[0].name )
             setClubName( res.data.events[0].club_name )
-            setEventDate( () => new Date(res.data.events[0].createdAt).toDateString() )
+            setEventDate( () => new Date(res.data.attenders[0].createdAt).toDateString() )
 
             if(res.data.attenders.length > 0){
                 setAttenderCount( () => res.data.attenders.length )
@@ -42,7 +42,7 @@ const DashboardTable = () => {
             // set html options
             setEventSelectElement(res.data.events.map((event) => {
                 
-                return <option key={event._id} value={event.name}>{event.name}</option>
+                return event.club_name === clubName ? <option key={event._id} value={event.name}>{event.name}</option> : ''
             }))
             setClubSelectElement(res.data.clubs.map((club) => {
 

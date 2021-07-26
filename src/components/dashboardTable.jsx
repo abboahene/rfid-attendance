@@ -9,6 +9,7 @@ const DashboardTable = () => {
     let [eventSelectElement, setEventSelectElement] = useState()
     let [clubSelectElement, setClubSelectElement] = useState()
     let [eventName, setEventName] = useState()
+    let [eventRoom, setEventRoom] = useState()
     let [clubName, setClubName] = useState()
     let [eventDate, setEventDate] = useState()
     let [attenderCount, setAttenderCount] = useState(0)
@@ -20,6 +21,7 @@ const DashboardTable = () => {
         axios.get('http://localhost:3002/attenders/lastest/event').then((res)=>{
             console.log('data here', res.data)
             setEventName( () => res.data.events[0].name )
+            setEventRoom( () => res.data.events[0].room )
             setClubName( res.data.events[0].club_name )
             setEventDate( () => new Date(res.data.attenders[0].createdAt).toDateString() )
 
@@ -28,13 +30,15 @@ const DashboardTable = () => {
                 setDataRows(res.data.attenders.map((attender) => {
                     //create html options
                     return <tr key={attender._id}>
-                        <th scope="row">{attender.member_name}</th>
-                        <td>{ new Date(attender.createdAt).toLocaleString().split(',')[1]}</td>
+                        <th scope="row">{attender.member_indexNo}</th>
+                        <td>{attender.member_name}</td>
+                        <td>{new Date(attender.createdAt).toLocaleString().split(',')[1]}</td>
                         <td>@{attender.member_rfid}</td>
                     </tr>
                 }))
             }else{
                 setDataRows([1].map((attender) => {
+                    setAttenderCount(0)
                     return <tr key="nodata"><td span="3">NO DATA</td></tr>
                 }))
             }
@@ -67,14 +71,15 @@ const DashboardTable = () => {
                 setDataRows(res.data.map((attender) => {
                     //create html rows
                     return <tr key={attender._id}>
-                        <th scope="row">{attender.member_name}</th>
-                        <td>{ new Date(attender.createdAt).toLocaleString().split(',')[1]}</td>
+                        <th scope="row">{attender.member_indexNo}</th>
+                        <td>{attender.member_name}</td>
+                        <td>{ new Date(attender.createdAt).toLocaleString().split(',')[1] || 'null'}</td>
                         <td>@{attender.member_rfid}</td>
                     </tr>
                 }))
             }else{
                 setDataRows([1].map((attender) => {
-                    
+                    setAttenderCount(0)
                     return <tr key="nodata"><td span="3">NO DATA</td></tr>
                 }))
             }
@@ -119,9 +124,10 @@ const DashboardTable = () => {
             <table className="table table-hover table-lights table-striped shadow-sm rounded">
                 <thead>
                     <tr> 
+                        <th scope="col">Index NO.</th>
                         <th scope="col">Name</th>
                         <th scope="col">Time <span className="badge badge-light">({eventDate})</span></th>
-                        <th scope="col">RfId |→ <span>{eventName}</span> </th>
+                        <th scope="col">RfId |→ <span>{eventName} ({eventRoom})</span> </th>
                     </tr>
                 </thead>
                 <tbody>

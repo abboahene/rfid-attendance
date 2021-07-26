@@ -1,10 +1,5 @@
-***Attendance Sheet for exams
+***Attendance Sheet for Pure 1034
 **Organized by cs4
-*Date: Tue Jun 22 2021
-Name                , Time                , Rfid                
-Israel,  11:23:44 am, @999999999999999999999901
-Israel,  11:23:44 am, @999999999999999999999901
-Benefo,  11:24:02 am, @bbbbbbbbbbbbbbbbbbbbbb01
-Benefo,  11:24:02 am, @bbbbbbbbbbbbbbbbbbbbbb01
-Prince,  11:24:06 am, @aaaaaaaaaaaaaaaaaaaaaa01
-Prince,  11:24:06 am, @aaaaaaaaaaaaaaaaaaaaaa01
+*Date: Fri May 21 2021
+Index NO., Name, Time                , Rfid                , MS, EOS, Total
+1657191, Prince,  12:08:00 am, @aaaaaaaaaaaaaaaaaaaaaa01,0,0,=E5+F5

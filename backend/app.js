@@ -58,7 +58,8 @@ wss.on('connection', async (ws) => {
     let EventNameClubName = fs.readFileSync('EventNameClubName.csv', 'utf8')
 
     let eventName = EventNameClubName.split(',')[0]
-    let clubName = EventNameClubName.split(',')[1]
+    let eventRoom = EventNameClubName.split(',')[1]
+    let clubName = EventNameClubName.split(',')[2]
 
     console.log('current event', eventName)
     console.log('current club', clubName)
@@ -90,10 +91,12 @@ wss.on('connection', async (ws) => {
                 //create an attender
                 let attender = new Attender({
                     member_rfid: member.rfid,
+                    member_indexNo: member.indexNo,
                     member_name: member.name,
                     member_club: member.club_name,
                     club_name: clubName,
-                    event_name: eventName
+                    event_name: eventName,
+                    event_room: eventRoom
                 })
                 attender.save((err, attender) =>{
                     if(err) console.log('could not save',err)
@@ -102,6 +105,7 @@ wss.on('connection', async (ws) => {
                     let member_details =
                         {
                             member_rfid: attender.member_rfid,
+                            member_indexNo: member.indexNo,
                             member_name: attender.member_name,
                             member_club: clubName,
                             time_arrived: attender.createdAt

@@ -4,8 +4,9 @@ import Navbar from '../components/navbar'
 import Toast from '../components/toast'
 import './css/index.css'
 const Index = () => {
-    let {club_name, event_name} = useParams()
+    let {club_name, event_name, event_room} = useParams()
     club_name = club_name.replace('_', ' ')
+    event_room = event_room.replace('_', ' ')
     event_name = event_name.replace('_', ' ')
 
     useEffect(() => {
@@ -35,6 +36,7 @@ const Index = () => {
                 }, 500)
                 
                 document.getElementById('image').setAttribute('src', `../images/${member_details.member_rfid}.jpg`)
+                document.getElementById('indexNo').textContent = member_details.member_indexNo
                 document.getElementById('rfid').textContent = member_details.member_rfid
                 document.getElementById('member_name').textContent = member_details.member_name
                 document.getElementById('club').textContent = member_details.member_club
@@ -55,7 +57,7 @@ const Index = () => {
             ws.close()
         };
     }, [event_name, club_name]);
-
+    
     return ( 
         <div className="indexBody">
             <Toast/>
@@ -64,12 +66,12 @@ const Index = () => {
             <div className="container-fluid m-3 d-flex flex-column justify-content-center">
                 <div className="pb-3 mx-5">
                 <h4 className="m-0 mb-1">Club: <span id="club_name">{club_name}</span></h4>
-                <h4 className="m-0">Event: <span id="event_title">{event_name}</span></h4>
+                <h4 className="m-0">Event: <span id="event_title">{event_name} ({event_room})</span></h4>
                 </div>
                 <div className="row h-75 mx-5">
                     <div className="col-7 p-0 h-100 rounded shadow-sm d-flex flex-column justify-content-center">
                         <div className="wrapper text-center">
-                            <img id="image" className="m-2 shadow rounded" src="../images/noimage.png" style={{ width : "200px" }} alt="" /> 
+                            <img id="image" className="m-2 shadow rounded" src="../../images/noimage.png" style={{ width : "200px" }} alt="" /> 
                         </div>
                         <div className="card shadow rounded mb-3 mx-5">
                             <div id="memberName" className="card-header">Attender Details:</div>
@@ -78,6 +80,7 @@ const Index = () => {
                                 <div className="card-text">
                                     <b>
                                         <ul>
+                                            <li><span>Index No.: </span> <span id="indexNo">---index no.----</span></li>
                                             <li><span>Rfid: </span> <span id="rfid">---rfid----</span></li>
                                             <li><span>Club: </span> <span id="club">---club_name----</span></li>
                                             <li><span>Date: </span> <span id="date">---event date----</span></li>

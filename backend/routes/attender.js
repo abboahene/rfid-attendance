@@ -4,6 +4,7 @@ const Attender = require('../models/attender')
 const Event = require('../models/event')
 const fs = require('fs')
 const path = require('path')
+// const xl = require('excel4node')
 
 router.get('/attenders/:event_title', (req, res) => {
     Attender.find({event_title: req.params.event_title})
@@ -47,10 +48,10 @@ router.get('/attenders/:club_name/:event_title/all', (req, res) => {
         ///build csv
         let csv = 'no data'
         if(attenders.length > 0){
-            csv = `***Attendance Sheet for ${attenders[0].event_name}\n**Organized by ${attenders[0].club_name}\n*Date: ${new Date(attenders[0].createdAt).toDateString()}\nName                , Time                , Rfid                \n`
-            
-            attenders.forEach( attender => {
-                csv += `${attender.member_name}, ${new Date(attender.createdAt).toLocaleString().split(',')[1]}, @${attender.member_rfid}\n`
+            csv = `***Attendance Sheet for ${attenders[0].event_name}\n**Organized by ${attenders[0].club_name}\n*Date: ${new Date(attenders[0].createdAt).toDateString()}\nIndex NO., Name, Time                , Rfid                , MS, EOS, Total\n`
+
+            attenders.forEach((attender, index) => {
+                csv += `${attender.member_indexNo}, ${attender.member_name}, ${new Date(attender.createdAt).toLocaleString().split(',')[1]}, @${attender.member_rfid},0,0,=E${index+5}+F${index+5}\n`
             })
         }
         fs.writeFile('csv.csv', csv, (err) =>{
@@ -79,10 +80,10 @@ router.get('/attenders/lastest/event', (req, res) => {
                 ///build csv
                 let csv = 'no data'
                 if(attenders.length > 0){
-                    csv = `***Attendance Sheet for ${attenders[0].event_name}\n**Organized by ${attenders[0].club_name}\n*Date: ${new Date(attenders[0].createdAt).toDateString()}\nName, Time                , Rfid                \n`
-
-                    attenders.forEach( attender => {
-                        csv += `${attender.member_name}, ${new Date(attender.createdAt).toLocaleString().split(',')[1]}, @${attender.member_rfid}\n`
+                    csv = `***Attendance Sheet for ${attenders[0].event_name}\n**Organized by ${attenders[0].club_name}\n*Date: ${new Date(attenders[0].createdAt).toDateString()}\nIndex NO., Name, Time                , Rfid                , MS, EOS, Total\n`
+        
+                    attenders.forEach((attender, index) => {
+                        csv += `${attender.member_indexNo}, ${attender.member_name}, ${new Date(attender.createdAt).toLocaleString().split(',')[1]}, @${attender.member_rfid},0,0,=E${index+5}+F${index+5}\n`
                     })
                 }
                 fs.writeFile('csv.csv', csv, (err) =>{

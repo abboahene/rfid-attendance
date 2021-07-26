@@ -26,7 +26,7 @@ function App() {
         <Switch>
           <Route exact path="/"><Redirect to="/dashboard"/></Route>
           <Route path="/dashboard"> <Dashboard/> </Route>
-          <Route exact path="/:club_name/:event_name"> <Index/> </Route>  
+          <Route exact path="/:club_name/:event_room/:event_name"> <Index/> </Route>  
         </Switch>
       </Suspense>
     </Router>

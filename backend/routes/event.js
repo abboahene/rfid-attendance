@@ -36,8 +36,8 @@ router.get('/event/latest', (req, res) => {
     })
 })
 
-router.get('/create/:event_name/:club_name/file', (req, res) => {
-    let csv = `${req.params.event_name},${req.params.club_name}`
+router.get('/create/:event_name/:event_room/:club_name/file', (req, res) => {
+    let csv = `${req.params.event_name},${req.params.event_room},${req.params.club_name}`
     fs.writeFile('EventNameClubName.csv', csv, (err) =>{
         if(err) console.log(err)
         console.log('EventNameClubName file written')

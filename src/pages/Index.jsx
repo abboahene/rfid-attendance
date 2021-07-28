@@ -35,7 +35,7 @@ const Index = () => {
                     document.getElementById('loading').classList.replace('preloader','valid')           
                 }, 500)
                 
-                document.getElementById('image').setAttribute('src', `../images/${member_details.member_rfid}.jpg`)
+                document.getElementById('image').setAttribute('src', `../../images/${member_details.member_rfid}.jpg`)
                 document.getElementById('indexNo').textContent = member_details.member_indexNo
                 document.getElementById('rfid').textContent = member_details.member_rfid
                 document.getElementById('member_name').textContent = member_details.member_name

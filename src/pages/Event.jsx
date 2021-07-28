@@ -118,9 +118,9 @@ const Event = () => {
                                                             <div className="">
                                                             <Link onClick={() => createEventNameClubNameFileOnServer(event.name,event.room,clubName)} to={`/${clubName.replace(' ', '_')}/${event.room.replace(' ','_')}/${event.name.replace(' ', '_')}`} className={event.is_ended ? `btn btn-sm btn-info rounded shadow-sm border my-1 mr-2 p-2 disabled` : `btn btn-sm btn-info rounded shadow-sm border my-1 mr-2 p-2`} ><i className="fa fa-clock-o"> Take Attendance</i>
                                                             </Link>
-                                                            <button onClick={ () => buttonUpdate(event) } className={event.is_ended ? `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2 disabled` : `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-edit"></i>
+                                                            <button onClick={ () => buttonUpdate(event) } className={event.is_ended ? `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2 d-none disabled` : `btn btn-sm btn-warning rounded shadow my-1 mr-2 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-edit"></i>
                                                             </button>
-                                                            <button onClick={ () => buttonDelete(event) } className={event.is_ended ? `btn btn-sm btn-danger rounded shadow my-1 p-2 disabled` : `btn btn-sm btn-danger rounded shadow my-1 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-minus"></i>
+                                                            <button onClick={ () => buttonDelete(event) } className={event.is_ended ? `btn btn-sm btn-danger rounded shadow my-1 p-2 d-none disabled` : `btn btn-sm btn-danger rounded shadow my-1 p-2`} data-toggle="modal" data-target="#cudModal"><i className="fa fa-minus"></i>
                                                             </button>
                                                             </div>
                                                         </li>

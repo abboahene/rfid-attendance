@@ -26,9 +26,10 @@ const Event = () => {
         body:<form ref={inputFormRef}>
                 <input type="text" className="form-control" placeholder="Enter New Event Name" id="inputDefault"/>
                 <label className="form-label mt-4">Select Club: </label>
-                <select className="form-select p-2 mt-2" style={{minWidth: '100px'}}>
+                <select className="form-select p-2 my-2" style={{minWidth: '100px'}}>
                     {clubsAndEvents.map((club, index) => <option key={index}> {Object.keys(club)[0]} </option>)}                   
                 </select>
+                <input type="text" className="form-control" placeholder="Enter Room Name" id="inputRoom"/>
             </form>,
         action: 'add',
         event: { name: '', club_name: ''}

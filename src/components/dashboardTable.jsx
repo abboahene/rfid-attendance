@@ -134,6 +134,9 @@ const DashboardTable = () => {
                     {dataRows}
                 </tbody>
             </table>
+            <form method="POST" action="http://localhost:3002/attenders/downloadcsv.csv">
+                <button type="submit" className="list-group-item h5 m-0 p-3 list-group-item-action d-flex justify-content-between align-items-center"><span className="p-2 rounded" style={{background: "rgb(212, 238, 200)"}}>Export</span></button>
+            </form>
         </div>
         </>
      );

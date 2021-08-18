@@ -39,7 +39,7 @@ const CudModal = ({title, body, action, club, reload, event }) =>{
     // *********Event Operations**********
     //----------addClub
     function addEvent() {
-        axios.post('http://localhost:3002/event',{ name: body.ref.current.children[0].value, club_name: body.ref.current.children[2].value })
+        axios.post('http://localhost:3002/event',{ name: body.ref.current.children[0].value, club_name: body.ref.current.children[2].value, room: body.ref.current.children[3].value })
         .then( res => {
             console.log('added',res.data)
             reload()// to reload the club component and run useEffect again

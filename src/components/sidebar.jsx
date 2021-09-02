@@ -29,7 +29,7 @@ const Sidebar = () => {
                 <span className="badge badge-success text-success badge-pill">○</span>
                 </Link>
                 <Link to={`${url}/clubs`} className="list-group-item m-0 p-3 font-weight-bold list-group-item-action d-flex justify-content-between align-items-center">
-                Clubs
+                Classes
                 <span className="badge badge-success text-success badge-pill">○</span>
                 </Link>
                 <Link to={`${url}/events`} className="list-group-item m-0 p-3 font-weight-bold list-group-item-action d-flex justify-content-between align-items-center">

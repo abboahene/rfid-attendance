@@ -22,21 +22,21 @@ const Club = () => {
     let updateInputRef  = useRef(null)
     const [modal, setModal] = useState({});
     const modal_add = { 
-        title: 'Add Club',
+        title: 'Add Class',
         body: <form ref={addInputRef}>
-                <input type="text" className="form-control" placeholder="Enter New Club Name" id="inputDefault"/>
+                <input type="text" className="form-control" placeholder="Enter New Class Name" id="inputDefault"/>
             </form>,
         action: 'add',
         club: { name: ''}
     }
     const modal_update = { 
-        title: 'Update Club',
+        title: 'Update Class',
         body: <input type="text"/>,
         action: 'update', 
         club: {name: ''}
     }
     const modal_delete = { 
-        title: 'Delete Club',
+        title: 'Delete Class',
         body: <p>Are you sure you want to delete?</p>,
         action: 'delete',
         club: {name: ''} 
@@ -65,13 +65,13 @@ const Club = () => {
     
     return ( 
         <div className="col-9 col-md-10 p-5">
-            <h1 className="text-success">Clubs</h1>
+            <h1 className="text-success">Classes</h1>
             <CudModal title={modal.title} body={modal.body} action={modal.action} club={modal.club} reload={reloadClub}/>
-            <button onClick={ buttonAdd } className={`btn btn-sm btn-success rounded shadow-sm mr-1 mb-2 pull-right`} data-toggle="modal" data-target="#cudModal">Add Club <i className="fa fa-plus"></i></button>
+            <button onClick={ buttonAdd } className={`btn btn-sm btn-success rounded shadow-sm mr-1 mb-2 pull-right`} data-toggle="modal" data-target="#cudModal">Add Class <i className="fa fa-plus"></i></button>
             <table className="table table-lights table-striped shadow-sm rounded">
                 <thead>
                     <tr className="text-center"> 
-                        <th scope="col">Club Name</th>
+                        <th scope="col">Class Name</th>
                         <th scope="col pull-right">
                             <span className="text-warning">Edit</span>/
                             <span className="text-danger">Delete</span>                           

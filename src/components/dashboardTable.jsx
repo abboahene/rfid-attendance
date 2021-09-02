@@ -108,7 +108,7 @@ const DashboardTable = () => {
             <form className="pull-right">
                 <fieldset>
                     <div className="form-group">
-                        <label className="form-label mt-4 mx-2">choose club:</label>
+                        <label className="form-label mt-4 mx-2">choose class:</label>
                         <select className="form-select p-2" onChange={getEventsForSelectedClub} defaultValue={clubName} ref={selectedClubName} id="selected_club_name">
                             {clubSelectElement}
                         </select>

@@ -25,7 +25,7 @@ const Event = () => {
         title: 'Add Event',
         body:<form ref={inputFormRef}>
                 <input type="text" className="form-control" placeholder="Enter New Event Name" id="inputDefault"/>
-                <label className="form-label mt-4">Select Club: </label>
+                <label className="form-label mt-4">Select Class: </label>
                 <select className="form-select p-2 my-2" style={{minWidth: '100px'}}>
                     {clubsAndEvents.map((club, index) => <option key={index}> {Object.keys(club)[0]} </option>)}                   
                 </select>
@@ -57,7 +57,7 @@ const Event = () => {
         modal_update.body = <form ref={inputFormRef}>
                                 <label className="form-label mt-4">Enter new event name:</label>
                                 <input type="text" className="form-control" placeholder={event.name} id="inputDefault"/>
-                                <label className="form-label mt-4">Club: </label>
+                                <label className="form-label mt-4">Class: </label>
                                 <select className="form-select p-2 mt-2 mr-2" disabled value={event.club_name} onChange={()=>{}} style={{minWidth: '100px'}}>
                                     <option key={1} value={event.club_name}>{event.club_name}</option>)                 
                                 </select>
@@ -84,7 +84,7 @@ const Event = () => {
             <table className="table table-lights table-striped shadow-sm rounded">
                 <thead>
                     <tr className="text-center"> 
-                        <th scope="col">Club Name</th>
+                        <th scope="col">Class Name</th>
                         <th scope="col pull-right">
                             <span className="text-warning">Events</span>
                         </th>

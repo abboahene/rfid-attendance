@@ -65,7 +65,7 @@ const Index = () => {
             <div className="container-fluid d-flex justify-content-center" style={{height: "85%"}}>
             <div className="container-fluid m-3 d-flex flex-column justify-content-center">
                 <div className="pb-3 mx-5">
-                <h4 className="m-0 mb-1">Club: <span id="club_name">{club_name}</span></h4>
+                <h4 className="m-0 mb-1">Class: <span id="club_name">{club_name}</span></h4>
                 <h4 className="m-0">Event: <span id="event_title">{event_name} ({event_room})</span></h4>
                 </div>
                 <div className="row h-75 mx-5">
@@ -82,7 +82,7 @@ const Index = () => {
                                         <ul>
                                             <li><span>Index No.: </span> <span id="indexNo">---index no.----</span></li>
                                             <li><span>Rfid: </span> <span id="rfid">---rfid----</span></li>
-                                            <li><span>Club: </span> <span id="club">---club_name----</span></li>
+                                            <li><span>Class: </span> <span id="club">---class_name----</span></li>
                                             <li><span>Date: </span> <span id="date">---event date----</span></li>
                                             <li className="font-weight-bold"><span>Time Arrived: </span> <span id="arrivalTime">---time arrived----</span></li>
                                         </ul>
